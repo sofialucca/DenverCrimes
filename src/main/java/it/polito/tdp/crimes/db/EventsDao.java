@@ -13,6 +13,34 @@ import it.polito.tdp.crimes.model.Event;
 
 public class EventsDao {
 	
+	public List<String> getCategorie(){
+		String sql = "SELECT DISTINCT offense_category_id FROM events";
+		
+		List<String> list = new ArrayList<>() ;
+		
+		try {
+			Connection conn = DBConnect.getConnection() ;
+
+			PreparedStatement st = conn.prepareStatement(sql) ;
+
+			ResultSet res = st.executeQuery() ;
+			
+			while(res.next()) {
+				list.add(res.getString("offense_category_id"));
+			}
+			
+			res.close();
+			st.close();
+			conn.close();
+			return list ;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null ;
+		}
+	}
+	
 	public List<Event> listAllEvents(){
 		String sql = "SELECT * FROM events" ;
 		try {

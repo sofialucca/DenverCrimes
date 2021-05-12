@@ -8,6 +8,7 @@ public class TestModel {
 		m.creaGrafo("aggravated-assault", 4);
 		
 		System.out.println(m.getArchi());
+		System.out.println(m.trovaPercorso("aggravated-assault-dv", "aggravated-assault"));
 	}
 
 }

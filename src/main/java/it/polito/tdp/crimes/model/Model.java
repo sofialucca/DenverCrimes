@@ -1,5 +1,6 @@
 package it.polito.tdp.crimes.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Model {
 		//--> stringhe tale da non richiedere identity Map
 	private SimpleWeightedGraph<String,DefaultWeightedEdge> grafo;
 	private EventsDao dao;
+	private List<String> percorsoMigliore;
 	
 	public Model() {
 		dao = new EventsDao();
@@ -51,5 +53,36 @@ public class Model {
 		}
 		
 		return result;
+	}
+	
+	public List<String> trovaPercorso(String sorgente, String destinazione) {
+		this.percorsoMigliore = new ArrayList<>();
+		List<String> parziale = new ArrayList<>();
+		parziale.add(sorgente);
+		cerca(destinazione, parziale);
+		return percorsoMigliore;
+	}
+	
+	private void cerca(String destinazione, List<String> parziale) {
+		//caso terminale
+		if(parziale.get(parziale.size()-1).equals(destinazione)) {
+			if(parziale.size()>this.percorsoMigliore.size()) {
+				percorsoMigliore = new ArrayList<>(parziale);
+			}
+			
+			return;
+		}
+		
+		for(String s: Graphs.neighborListOf(grafo, parziale.get(parziale.size()-1))) {
+			if(!parziale.contains(s)) {
+				parziale.add(s);
+				cerca(destinazione, parziale);
+				parziale.remove(parziale.size()-1);
+			}
+		}
+	}
+	
+	public List<String> getCategorie(){
+		return dao.getCategorie();
 	}
 }

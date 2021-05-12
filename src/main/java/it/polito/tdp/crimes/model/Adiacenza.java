@@ -38,7 +38,7 @@ public class Adiacenza {
 
 	@Override
 	public String toString() {
-		return v1 + " - " + v2 + " = " + peso + "\n";
+		return v1 + " ~~~~ " + v2 + " = " + peso + "\n";
 	}
 
 	
